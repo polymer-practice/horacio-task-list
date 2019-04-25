@@ -22,8 +22,45 @@
       <h3>Basic task-list demo</h3>
       <demo-snippet>
         <template>
-          <task-list></task-list>
+          <task-list id="task-list"></task-list>
         </template>
+        <script>
+          let taskList = [
+            {
+              id:0,
+              title: 'Learn Polymer 2',
+              done: false,
+              canceled: false
+            },
+            {
+              id:1,
+              title: 'Speak English',
+              done: true,
+              canceled: false
+            },
+            {
+              id:2,
+              title: 'Become preside of Spain',
+              done: false,
+              canceled: true
+            },
+            {
+              id:3,
+              title: 'Submarine drive license',
+              done: false,
+              canceled: false
+            },
+            {
+              id:4,
+              title: 'Win the lotery',
+              done: false,
+              canceled: true
+            }
+          ]
+          let htmlTaskElement = document.getElementById('task-list');
+          console.log(htmlTaskElement)
+          htmlTaskElement.taskList = taskList;
+        </script>
       </demo-snippet>
     </div>
   </body>

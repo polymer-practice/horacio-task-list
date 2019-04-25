@@ -1,4 +1,5 @@
 <link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../task-element/task-element.html">
 
 <dom-module id="task-list">
   <template>
@@ -6,28 +7,59 @@
       :host {
         display: block;
       }
+
+      .task-list {
+        list-style-type: none;
+      }
     </style>
-    <h2>Hello [[prop1]]!</h2>
+    <div class="task-list-container">
+        <form class="filter">
+          <label for="input-filter">[[filterLabel]]</label>
+          <input type="text" name="input-filter" class="text-filter" value="{{filterValue::input}}"/>
+        </form>
+        <ul class="task-list">
+          <template
+          is="dom-repeat"
+          items="[[taskList]]"
+          sort="sortTask"
+          filter="{{filterTaskTitle(filterValue)}}"
+          >
+            <li><task-element
+              key="[[item.id]]"
+              done="[[item.done]]"
+              canceled="[[item.canceled]]"
+              task-description="[[item.title]]"
+            ></task-element></li>
+          </template>
+        </ul>
+      </div>
   </template>
 
   <script>
-    /**
-     * `task-list`
-     * 
-     *
-     * @customElement
-     * @polymer
-     * @demo demo/index.html
-     */
     class TaskList extends Polymer.Element {
       static get is() { return 'task-list'; }
       static get properties() {
         return {
-          prop1: {
+          taskList: Array,
+          filterValue: String,
+          filterLabel: {
             type: String,
-            value: 'task-list'
+            value: 'Task filter'
           }
         };
+      }
+      sortTask(currentValue, prevValue) {
+        console.log("previous", prevValue)
+        console.log("current", currentValue)
+        let heighPrev = prevValue.canceled + (prevValue.done * 2);
+        let heighCurr = currentValue.canceled + (currentValue.done * 2);
+
+        return heighPrev - heighCurr;
+      }
+      filterTaskTitle(text) {
+        return function (value) {
+          return value.title.indexOf(text) > -1;
+        }
       }
     }
 
